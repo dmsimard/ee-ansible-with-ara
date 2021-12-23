@@ -1,0 +1,19 @@
+---
+version: 1
+build_arg_defaults:
+  # TODO: there is no stable-2.12-latest ?
+  # https://quay.io/repository/ansible/ansible-runner?tab=tags
+  EE_BASE_IMAGE: 'quay.io/ansible/ansible-runner:stable-2.12-devel'
+
+ansible_config: 'ansible.cfg'
+
+dependencies:
+# TODO: ansible-builder removes 'ansible' from requirements.txt so we can't put it there
+# https://github.com/ansible/ansible-builder/issues/323
+  python: requirements.txt
+
+# The ansible package contains a curated set of Ansible collections, include it in the EE
+additional_build_steps:
+  append:
+    - RUN pip install ansible
+
